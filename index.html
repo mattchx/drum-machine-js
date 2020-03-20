@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Drum Kit Vanilla JS</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body id="drum-machine">
+    <h1 class="title"><em>Beat 'dat keyboard!</em></h1>
+    <div id="display" class="keys">
+      <button data-key="81" class="drum-pad">
+        <kbd>Q</kbd>
+        <span class="sound">clap</span>
+      </button>
+      <button data-key="87" class="drum-pad">
+        <kbd>W</kbd>
+        <span class="sound">hihat</span>
+      </button>
+      <button data-key="69" class="drum-pad">
+        <kbd>E</kbd>
+        <span class="sound">kick</span>
+      </button>
+
+      <button data-key="65" class="drum-pad">
+        <kbd>A</kbd>
+        <span class="sound">openhat</span>
+      </button>
+      <button data-key="83" class="drum-pad">
+        <kbd>S</kbd>
+        <span class="sound">boom</span>
+      </button>
+      <button data-key="68" class="drum-pad">
+        <kbd>D</kbd>
+        <span class="sound">ride</span>
+      </button>
+
+      <button data-key="90" class="drum-pad">
+        <kbd>Z</kbd>
+        <span class="sound">snare</span>
+      </button>
+      <button data-key="88" class="drum-pad">
+        <kbd>X</kbd>
+        <span class="sound">tom</span>
+      </button>
+      <button data-key="67" class="drum-pad">
+        <kbd>C</kbd>
+        <span class="sound">tink</span>
+      </button>
+    </div>
+
+    <audio class="clip" id="Q" data-key="81" src="sounds/clap.wav"></audio>
+    <audio class="clip" id="W" data-key="87" src="sounds/hihat.wav"></audio>
+    <audio class="clip" id="E" data-key="69" src="sounds/kick.wav"></audio>
+    <audio class="clip" id="A" data-key="65" src="sounds/openhat.wav"></audio>
+    <audio class="clip" id="S" data-key="83" src="sounds/boom.wav"></audio>
+    <audio class="clip" id="D" data-key="68" src="sounds/ride.wav"></audio>
+    <audio class="clip" id="Z" data-key="90" src="sounds/snare.wav"></audio>
+    <audio class="clip" id="X" data-key="88" src="sounds/tom.wav"></audio>
+    <audio class="clip" id="C" data-key="67" src="sounds/tink.wav"></audio>
+
+    <script>
+      function playSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(
+          `.drum-pad[data-key="${e.keyCode}"]`
+        );
+        if (!audio) return; // stop the function from running
+
+        key.classList.add("playing");
+        audio.currentTime = 0; // allow multiple sounds reoccuring
+        audio.play();
+      }
+
+      function removeTransition(e) {
+        if (e.propertyName !== "transform") return; //skip if it's not a transform
+        this.classList.remove("playing");
+      }
+
+      const keys = document.querySelectorAll(".drum-pad");
+      keys.forEach(key =>
+        key.addEventListener("transitionend", removeTransition)
+      );
+
+      window.addEventListener("keydown", playSound);
+
+      const button = document.querySelectorAll(".drum-pad");
+
+      button.addEventListener("click", event => {
+        console.log("Clicked!");
+      });
+
+
+
+    </script>
+  
+    <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
+  </body>
+</html>
